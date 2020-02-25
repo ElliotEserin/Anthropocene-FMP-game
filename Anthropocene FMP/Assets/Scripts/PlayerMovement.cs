@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : DynamicMovement
 {
     public float walkSpeed;
     public float sprintSpeed;
@@ -21,11 +21,9 @@ public class PlayerMovement : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
         isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (isSprinting)
-        {
-            moveSpeed += sprintSpeed;
-            Debug.Log(isSprinting);
-        }
+        if (isSprinting) { moveSpeed += sprintSpeed; }
+
+        if (movement.sqrMagnitude > 0.01) { base.updateSortOrder(); }
 
         if (movement.x != 0 && movement.y != 0) { moveSpeed += walkSpeed / 2; }
         else { moveSpeed += walkSpeed; }

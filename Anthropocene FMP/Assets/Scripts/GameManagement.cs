@@ -17,15 +17,4 @@ public class GameManagement : MonoBehaviour
             }
         }   
     }
-
-    private void Update()
-    {
-        foreach(SpriteRenderer i in foregroundObjects)
-        {
-            if(!i.gameObject.isStatic)
-            {
-                i.sortingOrder = (int)(i.gameObject.transform.position.y*-100);
-            }
-        }
-    }
 }
