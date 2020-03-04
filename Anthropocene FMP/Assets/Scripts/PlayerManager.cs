@@ -11,10 +11,35 @@ public class PlayerManager : MonoBehaviour
     public float water = 100f;
     float rateOfWaterDecrease = 0.2f;
 
+    public List<Item> inventory = new List<Item>();
+    Interactable interactable;
+
     void Update()
     {
         oxygen -= rateOfOxygenDecrease * Time.deltaTime;
         food -= rateOfFoodDecrease * Time.deltaTime;
         water -= rateOfWaterDecrease * Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (interactable != null)
+            {
+                interactable.interact();
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Interacted...");
+        interactable = collision.GetComponent<Interactable>();
+        if (interactable != null)
+        {
+            Debug.Log("...With interactable...");
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        interactable = null;
     }
 }
