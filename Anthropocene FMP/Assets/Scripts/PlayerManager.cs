@@ -11,6 +11,9 @@ public class PlayerManager : MonoBehaviour
     public float water = 100f;
     float rateOfWaterDecrease = 0.2f;
 
+    public float currentPlayerHealth = 100;
+    public float maxPlayerHealth = 100;
+
     public List<Item> inventory = new List<Item>();
     Interactable interactable;
 
