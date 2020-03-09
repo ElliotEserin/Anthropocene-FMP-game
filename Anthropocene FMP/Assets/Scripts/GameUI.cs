@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class GameUI : MonoBehaviour
 {
-    public TextMeshProUGUI oxygenText;
-    public TextMeshProUGUI foodText;
-    public TextMeshProUGUI waterText;
+    public TextMeshProUGUI oxygenText, foodText, waterText, healthText, infoText, commandText;
 
     PlayerManager pm;
 
@@ -23,5 +18,6 @@ public class GameUI : MonoBehaviour
         oxygenText.text = "Oxygen: " + Math.Round(pm.oxygen);
         foodText.text = "Food: " + Math.Round(pm.food);
         waterText.text = "Water: " + Math.Round(pm.water);
+        healthText.text = "HEALTH: " + Math.Round((pm.currentPlayerHealth/pm.maxPlayerHealth) * 100);
     }
 }

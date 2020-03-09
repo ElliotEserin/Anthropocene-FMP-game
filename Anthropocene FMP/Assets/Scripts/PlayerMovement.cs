@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : DynamicMovement
 {
@@ -8,6 +6,7 @@ public class PlayerMovement : DynamicMovement
     public float sprintSpeed;
     public Rigidbody2D rb;
     public Animator animator;
+    public PlayerManager pm;
 
     Vector2 movement;
     bool isSprinting = false;
@@ -21,7 +20,10 @@ public class PlayerMovement : DynamicMovement
         movement.y = Input.GetAxisRaw("Vertical");
         isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (isSprinting) { moveSpeed += sprintSpeed; }
+        if (isSprinting && pm.food > 0)
+        {
+            moveSpeed += sprintSpeed;
+        }
 
         if (movement.sqrMagnitude > 0.01) { base.updateSortOrder(); }
 
@@ -31,6 +33,8 @@ public class PlayerMovement : DynamicMovement
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        pm.food -= movement.sqrMagnitude * pm.rateOfFoodDecrease * Time.deltaTime;
     }
 
     private void FixedUpdate()

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
     public InteractType interactType;
     public Item item; //replace with actual item class later
     public GameObject dialogue; //same here
+    public Item itemNeeded;
 
     PlayerManager pm;
 
@@ -21,7 +20,7 @@ public class Interactable : MonoBehaviour
             case InteractType.Item:
                 if(item != null)
                 {
-                    pm.inventory.Add(item);
+                  pm.inventory.Add(item);
                 }
                 break;
             case InteractType.Dialogue:
