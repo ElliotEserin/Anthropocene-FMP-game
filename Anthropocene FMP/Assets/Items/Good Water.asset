@@ -16,3 +16,4 @@ MonoBehaviour:
   description: A bottle of clean water.
   itemType: 2
   itemAttributes: 03000000
+  weight: 3

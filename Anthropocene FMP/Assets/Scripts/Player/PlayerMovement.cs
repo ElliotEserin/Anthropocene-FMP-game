@@ -2,11 +2,11 @@
 
 public class PlayerMovement : DynamicMovement
 {
-    public float walkSpeed;
-    public float sprintSpeed;
+    public float walkSpeed, sprintSpeed;
     public Rigidbody2D rb;
     public Animator animator;
     public PlayerManager pm;
+
 
     Vector2 movement;
     bool isSprinting = false;
@@ -20,25 +20,32 @@ public class PlayerMovement : DynamicMovement
         movement.y = Input.GetAxisRaw("Vertical");
         isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (isSprinting && pm.food > 0)
+        if (isSprinting && pm.food > 0) //increasing speed with sprint
         {
             moveSpeed += sprintSpeed;
         }
 
-        if (movement.sqrMagnitude > 0.01) { base.updateSortOrder(); }
+        if (movement.sqrMagnitude > 0.01) { base.updateSortOrder(); } //changing sort order
 
-        if (movement.x != 0 && movement.y != 0) { moveSpeed += walkSpeed / 2; }
-        else { moveSpeed += walkSpeed; }
+        if (movement.x != 0 && movement.y != 0) { moveSpeed += walkSpeed / 1.75f; } //moving diagonally
+        else { moveSpeed += walkSpeed; } //normal walk speed
 
+        //animation
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
+        //changing food
         pm.food -= movement.sqrMagnitude * pm.rateOfFoodDecrease * Time.deltaTime;
+        if(pm.currentPlayerWeight > 100)
+        {
+            moveSpeed /= 1 + (pm.currentPlayerWeight - 100)/4;
+        }
     }
 
     private void FixedUpdate()
     {
+        //update position
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 }

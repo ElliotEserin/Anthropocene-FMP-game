@@ -16,3 +16,4 @@ MonoBehaviour:
   description: a collection of rusted metals
   itemType: 1
   itemAttributes: 
+  weight: 1

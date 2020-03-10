@@ -16,3 +16,4 @@ MonoBehaviour:
   description: A metal bar for prizing open containers.
   itemType: 3
   itemAttributes: 
+  weight: 6

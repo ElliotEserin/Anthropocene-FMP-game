@@ -3,18 +3,14 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public float oxygen = 100f;
-    public float rateOfOxygenDecrease = 0.4f;
-    public float food = 100f;
-    public float rateOfFoodDecrease = 0.5f;
-    public float water = 100f;
-    public float rateOfWaterDecrease = 0.2f;
-    public float rateOfHealthDecrease = 2f;
+    public float oxygen = 100f, rateOfOxygenDecrease = 0.4f; //oxygen
+    public float food = 100f, rateOfFoodDecrease = 0.5f; //food
+    public float water = 100f, rateOfWaterDecrease = 0.2f; //water
+    public float currentPlayerHealth = 100, maxPlayerHealth = 100, rateOfHealthDecrease = 2f; //health
+    public float currentPlayerWeight = 0, maxPlayerWeight = 100; //weight
+    public GameObject pauseMenu, inventoryMenu; //menus
+    public List<Item> inventory = new List<Item>(); //inventorys
 
-    public float currentPlayerHealth = 80;
-    public float maxPlayerHealth = 80;
-
-    public List<Item> inventory = new List<Item>();
     Interactable interactable;
     GameUI GUI;
     private void Start()
@@ -52,6 +48,18 @@ public class PlayerManager : MonoBehaviour
                 interactable.interact();
             }
         }
+        if(Input.GetKeyDown(KeyCode.Escape) && !inventoryMenu.activeInHierarchy)
+        {
+            pauseMenu.SetActive(!pauseMenu.activeInHierarchy);
+            if (Time.timeScale == 1) { Time.timeScale = 0f; }
+            else { Time.timeScale = 1f; }
+        }
+        if(Input.GetKeyDown(KeyCode.I) && !pauseMenu.activeInHierarchy)
+        {
+            inventoryMenu.SetActive(!inventoryMenu.activeInHierarchy);
+            if (Time.timeScale == 1) { Time.timeScale = 0.5f; }
+            else { Time.timeScale = 1f; }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,7 +67,9 @@ public class PlayerManager : MonoBehaviour
         interactable = collision.GetComponent<Interactable>();
         if(interactable != null)
         {
-            GUI.commandText.text = "E";
+            string command = "";
+            if (interactable.itemNeeded != null) { command = " (" + interactable.itemNeeded.itemName + ")"; }
+            GUI.commandText.text = "E" + command;
             if (interactable.item != null)
             {
                 GUI.infoText.text = interactable.item.itemName;

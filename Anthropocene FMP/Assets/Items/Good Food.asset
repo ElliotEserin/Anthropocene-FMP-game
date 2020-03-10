@@ -16,3 +16,4 @@ MonoBehaviour:
   description: Food that is safe for consumption.
   itemType: 2
   itemAttributes: 02000000
+  weight: 3

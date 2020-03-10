@@ -3,10 +3,10 @@
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
 public class Item : ScriptableObject
 {
-    public string itemName = "new item";
-    public string description = "an item...";
+    public string itemName = "new item", description = "an item...";
     public itemType itemType;
     public itemAttributes[] itemAttributes;
+    public float weight;
 }
 
 public enum itemType

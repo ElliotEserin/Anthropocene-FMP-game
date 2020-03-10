@@ -16,3 +16,4 @@ MonoBehaviour:
   description: A tank of Oxygen
   itemType: 2
   itemAttributes: 01000000
+  weight: 5

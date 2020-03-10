@@ -16,3 +16,4 @@ MonoBehaviour:
   description: Food that has gone off...
   itemType: 2
   itemAttributes: 02000000
+  weight: 1
