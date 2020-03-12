@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     public float currentPlayerWeight = 0, maxPlayerWeight = 100; //weight
     public GameObject pauseMenu, inventoryMenu; //menus
     public List<Item> inventory = new List<Item>(); //inventorys
+    public Item leftHand, rightHand;
 
     Interactable interactable;
     GameUI GUI;
@@ -51,14 +52,12 @@ public class PlayerManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) && !inventoryMenu.activeInHierarchy)
         {
             pauseMenu.SetActive(!pauseMenu.activeInHierarchy);
-            if (Time.timeScale == 1) { Time.timeScale = 0f; }
-            else { Time.timeScale = 1f; }
+            SetTimeScaleForMenus();
         }
         if(Input.GetKeyDown(KeyCode.I) && !pauseMenu.activeInHierarchy)
         {
             inventoryMenu.SetActive(!inventoryMenu.activeInHierarchy);
-            if (Time.timeScale == 1) { Time.timeScale = 0.5f; }
-            else { Time.timeScale = 1f; }
+            SetTimeScaleForMenus();
         }
     }
 
@@ -81,5 +80,11 @@ public class PlayerManager : MonoBehaviour
         interactable = null;
         GUI.commandText.text = null;
         GUI.infoText.text = null;
+    }
+
+    void SetTimeScaleForMenus()
+    {
+        if (Time.timeScale == 1) { Time.timeScale = 0f; }
+        else { Time.timeScale = 1f; }
     }
 }

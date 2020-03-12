@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Medical Kit
   description: A kit containing medical supplies.
-  itemType: 2
-  itemAttributes: 00000000
   weight: 2
+  itemType: 2
+  restoreType: 0
+  ammount: 50
