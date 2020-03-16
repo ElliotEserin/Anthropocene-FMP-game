@@ -8,6 +8,7 @@ public class Item : ScriptableObject
     [TextArea(3,5)]
     public string description = "an item...";
     public float weight;
+    public int quantity = 0;
     public ItemType itemType;
 
     [Header("If consumable, it restores:")]
@@ -36,7 +37,12 @@ public class Item : ScriptableObject
                 if (pm.water > 100) { pm.water = 100; }
                 break;
         }
-        pm.inventory.Remove(itemToConsume);
+        itemToConsume.quantity -= 1;
+        if(itemToConsume.quantity == 0)
+        {
+            pm.inventory.Remove(itemToConsume);
+        }
+        pm.currentPlayerWeight -= itemToConsume.weight;
     }
 }
 

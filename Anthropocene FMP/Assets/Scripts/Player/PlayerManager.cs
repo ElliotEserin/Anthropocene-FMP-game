@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     public List<Item> inventory = new List<Item>(); //inventorys
     public Item leftHand, rightHand;
 
+    public bool uISelection = true;
+
     Interactable interactable;
     GameUI GUI;
     private void Start()
@@ -59,6 +61,18 @@ public class PlayerManager : MonoBehaviour
             inventoryMenu.SetActive(!inventoryMenu.activeInHierarchy);
             SetTimeScaleForMenus();
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            useHand(leftHand);
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            useHand(rightHand);
+        }
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            uISelection = !uISelection;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,5 +100,27 @@ public class PlayerManager : MonoBehaviour
     {
         if (Time.timeScale == 1) { Time.timeScale = 0f; }
         else { Time.timeScale = 1f; }
+    }
+
+    void useHand(Item hand)
+    {
+        if (hand != null)
+        {
+            if (hand.quantity == 0)
+            {
+                hand = null;
+            }
+        }
+
+        if (hand != null)
+        {
+            switch (hand.itemType)
+            {
+                case ItemType.consumable:
+                    hand.Consume(hand);
+                    break;
+                    //other types of item
+            }
+        }
     }
 }

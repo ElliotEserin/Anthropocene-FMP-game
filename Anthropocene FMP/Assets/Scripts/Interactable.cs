@@ -33,9 +33,17 @@ public class Interactable : MonoBehaviour
             case InteractType.Item:
                 if(item != null && canTrigger)
                 {
-                    pm.inventory.Add(item);
+                    if(item.quantity <= 0)
+                    {
+                        pm.inventory.Add(item);
+                        item.quantity = 1;
+                    }
+                    else if(item.quantity > 0)
+                    {
+                        item.quantity += 1;
+                    }
                     pm.currentPlayerWeight += item.weight;
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 }
                 break;
             case InteractType.Dialogue:

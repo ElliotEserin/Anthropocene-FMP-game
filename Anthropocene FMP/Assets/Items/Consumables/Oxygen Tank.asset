@@ -15,6 +15,7 @@ MonoBehaviour:
   itemName: O2 Tank
   description: A tank of Oxygen
   weight: 5
+  quantity: 0
   itemType: 2
   restoreType: 1
   ammount: 100

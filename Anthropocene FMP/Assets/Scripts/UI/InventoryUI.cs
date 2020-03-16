@@ -13,57 +13,68 @@ public class InventoryUI : MonoBehaviour
     int positionInList = 0;
     Item itemSelected;
 
-    private void Start()
+    private void OnEnable()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         inventory = playerManager.inventory;
+        UpdateUI();
     }
 
     private void Update()
-    {       
-        if (inventory.Count > 0 && inventoryLength != inventory.Count) //checking if a change has been made
+    {
+        if (playerManager.uISelection)
         {
-            UpdateUI();
-        }
-
-        bool up = Input.GetKeyDown(KeyCode.W), down = Input.GetKeyDown(KeyCode.S); //getting scroll input
-        bool aPressed = Input.GetKeyDown(KeyCode.A), dPressed = Input.GetKeyDown(KeyCode.D), ePressed = Input.GetKeyDown(KeyCode.E);
-
-        //adjusting UI accordingly
-        if(up && inventory.Count > 1) 
-        {
-            positionInList -= 1;
-            if (positionInList < 0) { positionInList = inventory.Count - 1; }
-            UpdateUI();
-        }
-        if(down && inventory.Count > 1)
-        {
-            positionInList += 1;
-            if (positionInList > inventory.Count - 1) { positionInList = 0; }
-            UpdateUI();
-        }
-        if(ePressed && itemSelected != null)
-        {
-            if (itemSelected.itemType == ItemType.consumable)
+            //checking if a change has been made
+            if (inventory.Count > 0 && inventoryLength != inventory.Count)
             {
-                itemSelected.Consume(itemSelected);
+                UpdateUI();
+            }
+
+            //getting scroll input
+            var up = Input.GetKeyDown(KeyCode.W);
+            var down = Input.GetKeyDown(KeyCode.S);
+            var aPressed = Input.GetKeyDown(KeyCode.A);
+            var dPressed = Input.GetKeyDown(KeyCode.D);
+            var ePressed = Input.GetKeyDown(KeyCode.E);
+
+            //adjusting UI accordingly
+            if (up && inventory.Count > 1)
+            {
+                positionInList -= 1;
+
+                if (positionInList < 0) positionInList = inventory.Count - 1;
+
+                UpdateUI();
+            }
+            if (down && inventory.Count > 1)
+            {
+                positionInList += 1;
                 if (positionInList > inventory.Count - 1) { positionInList = 0; }
                 UpdateUI();
             }
-        }
-        if (aPressed && itemSelected != null)
-        {
-            playerManager.leftHand = itemSelected;
-            UpdateUI();
-        }
-        if (dPressed && itemSelected != null)
-        {
-            playerManager.rightHand = itemSelected;
-            UpdateUI();
+            if (ePressed && itemSelected != null)
+            {
+                if (itemSelected.itemType == ItemType.consumable)
+                {
+                    itemSelected.Consume(itemSelected);
+                    if (positionInList > inventory.Count - 1) { positionInList = 0; }
+                    UpdateUI();
+                }
+            }
+            if (aPressed && itemSelected != null)
+            {
+                playerManager.leftHand = itemSelected;
+                UpdateUI();
+            }
+            if (dPressed && itemSelected != null)
+            {
+                playerManager.rightHand = itemSelected;
+                UpdateUI();
+            }
         }
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         //display title and total weight
         inventoryTitleUI.text = "INVENTORY: " + playerManager.currentPlayerWeight + "/" + playerManager.maxPlayerWeight + "KG";
@@ -79,7 +90,7 @@ public class InventoryUI : MonoBehaviour
                 inventoryListUI.text += ">> ";
                 detailOutput.Append("DESCRIPTION: " + itemSelected.description + "\n\n" + "WEIGHT: " + itemSelected.weight + "KG" + "\n\n");
 
-                switch(itemSelected.itemType)
+                switch (itemSelected.itemType)
                 {
                     case ItemType.consumable:
                         detailOutput.Append("PRESS 'E' TO USE..." + "\n\n");
@@ -95,17 +106,17 @@ public class InventoryUI : MonoBehaviour
             Item lH = playerManager.leftHand;
             Item rH = playerManager.rightHand;
 
-            if (item == lH && item == rH) { name.Append(" (L/R)\n"); }
-            else if (item == lH) { name.Append(" (L)\n"); }
-            else if (item == rH) { name.Append(" (R)\n"); }     
-            else { name.Append("\n"); }
+            if (item == lH && item == rH) { name.Append(" (L/R)"); }
+            else if (item == lH) { name.Append(" (L)"); }
+            else if (item == rH) { name.Append(" (R)"); }
+            name.Append(" (x" + item.quantity + ")" + "\n");
 
             inventoryListUI.text += name.ToString();
         }
         inventoryLength = inventory.Count;
 
         if (inventoryLength == 0) //reseting UI
-        { 
+        {
             itemSelected = null;
             inventoryDetailUI.text = null;
         }
