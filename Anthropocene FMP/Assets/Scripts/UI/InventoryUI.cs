@@ -6,22 +6,24 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     public Text inventoryListUI, inventoryTitleUI, inventoryDetailUI;
+    public int positionInList = 0;
     PlayerManager playerManager;
     List<Item> inventory = new List<Item>();
     int inventoryLength;
     [SerializeField]
-    int positionInList = 0;
     Item itemSelected;
 
     private void OnEnable()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        playerManager.uISelection = true;
         inventory = playerManager.inventory;
         UpdateUI();
     }
 
     private void Update()
     {
+        inventoryListUI.color = inventoryTitleUI.color = inventoryDetailUI.color = Color.black;
         if (playerManager.uISelection)
         {
             //checking if a change has been made
@@ -71,6 +73,10 @@ public class InventoryUI : MonoBehaviour
                 playerManager.rightHand = itemSelected;
                 UpdateUI();
             }
+        }
+        else
+        {
+            inventoryListUI.color = inventoryTitleUI.color = inventoryDetailUI.color = Color.grey;
         }
     }
 
