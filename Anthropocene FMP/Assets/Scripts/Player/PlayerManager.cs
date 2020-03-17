@@ -11,11 +11,11 @@ public class PlayerManager : MonoBehaviour
     public GameObject pauseMenu, inventoryMenu; //menus
     public List<Item> inventory = new List<Item>(); //inventorys
     public Item leftHand, rightHand;
+    public InventoryUI IUI;
 
     public bool uISelection = true;
 
     Interactable interactable;
-    InventoryUI IUI;
     GameUI GUI;
     private void Start()
     {
@@ -115,14 +115,16 @@ public class PlayerManager : MonoBehaviour
 
         if (hand != null)
         {
-            IUI = FindObjectOfType<InventoryUI>();
             switch (hand.itemType)
             {
                 case ItemType.consumable:
                     hand.Consume(hand);
                     if (IUI.positionInList > inventory.Count - 1) { IUI.positionInList = 0; }
                     break;
-                    //other types of item
+                case ItemType.melee:
+                    hand.attack();
+                    Debug.Log("You Attacked!");
+                    break;
             }
         }
     }
