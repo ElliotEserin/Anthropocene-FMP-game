@@ -16,6 +16,9 @@ MonoBehaviour:
   description: A tank of Oxygen
   weight: 5
   quantity: 0
-  itemType: 2
+  itemType: 3
   restoreType: 1
   ammount: 100
+  attackRadius: 0.5
+  damage: 0
+  damageCollider: {fileID: 0}

@@ -58,58 +58,63 @@ public class Item : ScriptableObject
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
             Vector2 mousePos = FindObjectOfType<Camera>().ScreenToWorldPoint(Input.mousePosition);
 
-            Direction direction = Direction.Center;
-            float offset = 0.5f;
+            Vector2 offset = Vector2.zero;
 
             if(playerPos.x < mousePos.x)
             {
                 if(playerPos.y < mousePos.y)
                 {
-                    direction = Direction.TopRight;
+                    //TopRight;
+                    offset = new Vector2(0.5f, 0.5f);
                 }
                 else if(playerPos.y == mousePos.y)
                 {
-                    direction = Direction.Right;
+                    //Right;
+                    offset = new Vector2(0.5f, 0f);
                 }
                 else if (playerPos.y > mousePos.y)
                 {
-                    direction = Direction.BottomRight;
+                    //BottomRight;
+                    offset = new Vector2(0.5f, -0.5f);
                 }
             }
             else if (playerPos.x == mousePos.x)
             {
                 if (playerPos.y < mousePos.y)
                 {
-                    direction = Direction.Top;
+                    //Top;
+                    offset = new Vector2(0f, 0.5f);
                 }
                 else if (playerPos.y == mousePos.y)
                 {
-                    direction = Direction.Center;
+                    //Center;
+                    offset = new Vector2(0f, 0f);
                 }
                 else if (playerPos.y > mousePos.y)
                 {
-                    direction = Direction.Bottom;
+                    //Bottom;
+                    offset = new Vector2(0f, -0.5f);
                 }
             }
             else if (playerPos.x > mousePos.x)
             {
                 if (playerPos.y < mousePos.y)
                 {
-                    direction = Direction.TopLeft;
+                    //TopLeft;
+                    offset = new Vector2(-0.5f, 0.5f);
                 }
                 else if (playerPos.y == mousePos.y)
                 {
-                    direction = Direction.Left;
+                    //Left;
+                    offset = new Vector2(-0.5f, 0f);
                 }
                 else if (playerPos.y > mousePos.y)
                 {
-                    direction = Direction.BottomLeft;
+                    //BottomLeft;
+                    offset = new Vector2(-0.5f, -0.5f);
                 }
             }
-
-            Debug.Log(direction);
-
-            //Instantiate(damageCollider, spawnPoint, Quaternion.identity);
+            Instantiate(damageCollider, playerPos+offset, Quaternion.identity);
         }
         else if(itemType == ItemType.ranged)
         {
@@ -133,17 +138,4 @@ public enum RestoreType
     Oxygen,
     Food,
     Water
-}
-
-public enum Direction
-{
-    Top,
-    TopLeft,
-    Left,
-    BottomLeft,
-    Bottom,
-    BottomRight,
-    Right,
-    TopRight,
-    Center
 }
