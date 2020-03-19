@@ -15,9 +15,9 @@ public class EnemyMovement : DynamicMovement
     public float damage = 2f;
 
     bool isVisible = true;
+    float timer = 0f;
 
     Vector2 move;
-    float timer = 0f;
 
     States state = States.Idle;
 
@@ -37,12 +37,10 @@ public class EnemyMovement : DynamicMovement
     private void OnBecameInvisible()
     {
         isVisible = false;
-        tag = "Untagged";
     }
     private void OnBecameVisible()
     {
         isVisible = true;
-        tag = "Enemy";
     }
 
     private void Update()
@@ -109,7 +107,7 @@ public class EnemyMovement : DynamicMovement
 
         if (Vector2.Distance(transform.position, player.position) > attackRadius)
         {
-            state = States.Idle;
+            state = States.Detected;
         }
     }
 

@@ -13,6 +13,9 @@ public class PlayerManager : MonoBehaviour
     public Item leftHand, rightHand;
     public InventoryUI IUI;
 
+    float lhTimer = 0f;
+    float rhTimer = 0f;
+
     public bool uISelection = true;
 
     Interactable interactable;
@@ -62,17 +65,28 @@ public class PlayerManager : MonoBehaviour
             inventoryMenu.SetActive(!inventoryMenu.activeInHierarchy);
             SetTimeScaleForMenus();
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && lhTimer <= 0)
         {
             useHand(leftHand);
+            lhTimer = leftHand.coolDown;
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && rhTimer <= 0)
         {
             useHand(rightHand);
+            rhTimer = rightHand.coolDown;
         }
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             uISelection = !uISelection;
+        }
+
+        if(lhTimer > 0)
+        {
+            lhTimer -= Time.deltaTime;
+        }
+        if (rhTimer > 0)
+        {
+            lhTimer -= Time.deltaTime;
         }
     }
 
@@ -121,10 +135,12 @@ public class PlayerManager : MonoBehaviour
                     hand.Consume(hand);
                     if (IUI.positionInList > inventory.Count - 1) { IUI.positionInList = 0; }
                     break;
+                case ItemType.ranged:
                 case ItemType.melee:
                     hand.attack();
                     Debug.Log("You Attacked!");
                     break;
+                
             }
         }
     }

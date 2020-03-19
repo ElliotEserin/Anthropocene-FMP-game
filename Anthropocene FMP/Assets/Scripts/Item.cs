@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
 public class Item : ScriptableObject
@@ -12,13 +12,17 @@ public class Item : ScriptableObject
     public int quantity = 0;
     public ItemType itemType;
 
+    public float coolDown = 1f;
+
     [Header("If consumable, it restores:")]
     public RestoreType restoreType;
     public int ammount = 0;
 
     [Header("If weapon, it does:")]
+    //the attack radius of melee weapons or the bullet distance of ranged weapons
     public float attackRadius = 0.5f;
     public float damage = 0;
+    public int numberOfBullets = 1;
     public GameObject damageCollider;
 
     public void Consume(Item itemToConsume)
@@ -58,67 +62,80 @@ public class Item : ScriptableObject
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
             Vector2 mousePos = FindObjectOfType<Camera>().ScreenToWorldPoint(Input.mousePosition);
 
-            Vector2 offset = Vector2.zero;
+            double playerX = Math.Round(playerPos.x, MidpointRounding.AwayFromZero);
+            double playerY = Math.Round(playerPos.y, MidpointRounding.AwayFromZero);
+            double mouseX = Math.Round(mousePos.x, MidpointRounding.AwayFromZero);
+            double mouseY = Math.Round(mousePos.y, MidpointRounding.AwayFromZero);
 
-            if(playerPos.x < mousePos.x)
+            Vector2 offset = Vector2.zero;
+            float rotationOnZ = 0f;
+
+            if(playerX < mouseX)
             {
-                if(playerPos.y < mousePos.y)
+                if(playerY < mouseY)
                 {
                     //TopRight;
                     offset = new Vector2(0.5f, 0.5f);
+                    rotationOnZ = 315f;
                 }
-                else if(playerPos.y == mousePos.y)
+                else if(playerY == mouseY)
                 {
                     //Right;
                     offset = new Vector2(0.5f, 0f);
+                    rotationOnZ = 270f;
                 }
-                else if (playerPos.y > mousePos.y)
+                else if (playerY > mouseY)
                 {
                     //BottomRight;
                     offset = new Vector2(0.5f, -0.5f);
+                    rotationOnZ = 225f;
                 }
             }
-            else if (playerPos.x == mousePos.x)
+            else if (playerX == mouseX)
             {
-                if (playerPos.y < mousePos.y)
+                if (playerY <= mouseY)
                 {
-                    //Top;
+                    //Top/center;
                     offset = new Vector2(0f, 0.5f);
                 }
-                else if (playerPos.y == mousePos.y)
-                {
-                    //Center;
-                    offset = new Vector2(0f, 0f);
-                }
-                else if (playerPos.y > mousePos.y)
+                else if (playerY >mouseY)
                 {
                     //Bottom;
                     offset = new Vector2(0f, -0.5f);
+                    rotationOnZ = 180f;
                 }
             }
-            else if (playerPos.x > mousePos.x)
+            else if (playerX > mouseX)
             {
-                if (playerPos.y < mousePos.y)
+                if (playerY < mouseY)
                 {
                     //TopLeft;
                     offset = new Vector2(-0.5f, 0.5f);
+                    rotationOnZ = 45f;
                 }
-                else if (playerPos.y == mousePos.y)
+                else if (playerY == mouseY)
                 {
                     //Left;
                     offset = new Vector2(-0.5f, 0f);
+                    rotationOnZ = 90f;
                 }
-                else if (playerPos.y > mousePos.y)
+                else if (playerY > mouseY)
                 {
                     //BottomLeft;
                     offset = new Vector2(-0.5f, -0.5f);
+                    rotationOnZ = 135f;
                 }
             }
-            Instantiate(damageCollider, playerPos+offset, Quaternion.identity);
+            offset.y -= 0.25f;
+            Instantiate(damageCollider, playerPos+offset, Quaternion.Euler(0f,0f,rotationOnZ));
         }
         else if(itemType == ItemType.ranged)
         {
+            Debug.Log("shot");
+            Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 
+            for(int i = 0; i < numberOfBullets; i++)
+                Instantiate(damageCollider, playerPos, Quaternion.identity);
         }
     }
 }
@@ -139,3 +156,4 @@ public enum RestoreType
     Food,
     Water
 }
+

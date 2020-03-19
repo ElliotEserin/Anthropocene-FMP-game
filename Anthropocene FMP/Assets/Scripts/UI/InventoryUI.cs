@@ -98,8 +98,14 @@ public class InventoryUI : MonoBehaviour
 
                 switch (itemSelected.itemType)
                 {
+                    case ItemType.resource:
+                        break;
                     case ItemType.consumable:
                         detailOutput.Append("PRESS 'E' TO USE..." + "\n\n");
+                        break;
+                    case ItemType.melee:
+                    case ItemType.ranged:
+                        detailOutput.Append("COOLDOWN: " + itemSelected.coolDown + " SECOND(S)..." + "\n\n");
                         break;
                 }
                 detailOutput.Append("PRESS 'A' OR 'D' TO EQUIP TO LEFT OR RIGHT MOUSE BUTTON...");
