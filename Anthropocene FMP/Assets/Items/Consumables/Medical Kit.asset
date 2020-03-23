@@ -15,6 +15,12 @@ MonoBehaviour:
   itemName: Medical Kit
   description: A kit containing medical supplies.
   weight: 2
-  itemType: 2
+  quantity: 0
+  itemType: 3
+  coolDown: 1
   restoreType: 0
-  ammount: 50
+  ammountToRestore: 0
+  attackRadius: 0.5
+  damage: 0
+  numberOfBullets: 1
+  damageCollider: {fileID: 0}

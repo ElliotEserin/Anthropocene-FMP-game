@@ -33,16 +33,25 @@ public class Interactable : MonoBehaviour
             case InteractType.Item:
                 if(item != null && canTrigger)
                 {
-                    if(item.quantity <= 0)
+                    bool isInInventory = false;
+                    foreach(Item itemInInventory in pm.inventory)
+                    {
+                        if(itemInInventory == item)
+                        {
+                            item.quantity += 1;
+                            isInInventory = true;
+                        }
+                    }
+                    if (!isInInventory)
                     {
                         pm.inventory.Add(item);
-                        item.quantity = 1;
+                        if (item.quantity <= 0)
+                        {
+                            item.quantity = 1;
+                        }
                     }
-                    else if(item.quantity > 0)
-                    {
-                        item.quantity += 1;
-                    }
-                    pm.currentPlayerWeight += item.weight;
+
+                    pm.CalculateWeight();
                     Destroy(gameObject);
                 }
                 break;

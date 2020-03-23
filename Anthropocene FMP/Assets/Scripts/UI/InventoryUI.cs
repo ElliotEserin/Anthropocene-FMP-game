@@ -7,6 +7,8 @@ public class InventoryUI : MonoBehaviour
 {
     public Text inventoryListUI, inventoryTitleUI, inventoryDetailUI;
     public int positionInList = 0;
+    public GameObject interactablePrefab;
+    public GameObject[] enemiesToSpawn;
     PlayerManager playerManager;
     List<Item> inventory = new List<Item>();
     int inventoryLength;
@@ -16,6 +18,7 @@ public class InventoryUI : MonoBehaviour
     private void OnEnable()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        playerManager.CalculateWeight();
         playerManager.uISelection = true;
         inventory = playerManager.inventory;
         UpdateUI();
@@ -29,6 +32,7 @@ public class InventoryUI : MonoBehaviour
             //checking if a change has been made
             if (inventory.Count > 0 && inventoryLength != inventory.Count)
             {
+                playerManager.CalculateWeight();
                 UpdateUI();
             }
 
@@ -38,6 +42,7 @@ public class InventoryUI : MonoBehaviour
             var aPressed = Input.GetKeyDown(KeyCode.A);
             var dPressed = Input.GetKeyDown(KeyCode.D);
             var ePressed = Input.GetKeyDown(KeyCode.E);
+            var rPressed = Input.GetKeyDown(KeyCode.R);
 
             //adjusting UI accordingly
             if (up && inventory.Count > 1)
@@ -60,8 +65,15 @@ public class InventoryUI : MonoBehaviour
                 {
                     itemSelected.Consume(itemSelected);
                     if (positionInList > inventory.Count - 1) { positionInList = 0; }
+                    playerManager.CalculateWeight();
                     UpdateUI();
                 }
+            }
+            if(rPressed)
+            {
+                Litter();
+                playerManager.CalculateWeight();
+                UpdateUI();
             }
             if (aPressed && itemSelected != null)
             {
@@ -108,7 +120,8 @@ public class InventoryUI : MonoBehaviour
                         detailOutput.Append("COOLDOWN: " + itemSelected.coolDown + " SECOND(S)..." + "\n\n");
                         break;
                 }
-                detailOutput.Append("PRESS 'A' OR 'D' TO EQUIP TO LEFT OR RIGHT MOUSE BUTTON...");
+                detailOutput.Append("PRESS 'A' OR 'D' TO EQUIP TO LEFT OR RIGHT MOUSE BUTTON..." + "\n\n");
+                detailOutput.Append("PRESS 'R' TO DROP THE CURRENT ITEM...");
                 inventoryDetailUI.text = detailOutput.ToString();
             }
             StringBuilder name = new StringBuilder();
@@ -134,5 +147,25 @@ public class InventoryUI : MonoBehaviour
         }
 
         Debug.Log("Updated Inventory...");
+    }
+
+    void Litter()
+    {
+        var itemDropped = Instantiate(interactablePrefab, playerManager.transform.position, Quaternion.identity, GameObject.Find("Interactables").transform);
+        itemDropped.GetComponent<Interactable>().item = itemSelected;
+        playerManager.inventory.Remove(itemSelected);
+        playerManager.CalculateWeight();
+        if (positionInList > inventory.Count - 1) { positionInList = 0; }
+        playerManager.litterQuantity += 1;
+
+        int spawnEnemy = Random.Range(0,4);
+        if(spawnEnemy == 2)
+        {
+            int enemyToSpawn = Random.Range(0, enemiesToSpawn.Length);
+            float randomX = Random.Range(-10, 11);
+            float randomY = Random.Range(-10, 11);
+            Instantiate(enemiesToSpawn[enemyToSpawn], playerManager.transform.position + new Vector3(randomX, randomY,0), Quaternion.identity);
+            Debug.Log("enemy spawned");
+        }
     }
 }

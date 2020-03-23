@@ -32,6 +32,7 @@ public class EnemyMovement : DynamicMovement
     private void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        player = GameObject.Find("Player").transform;
     }
 
     private void OnBecameInvisible()

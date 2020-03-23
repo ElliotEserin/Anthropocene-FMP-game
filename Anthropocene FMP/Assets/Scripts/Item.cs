@@ -16,7 +16,7 @@ public class Item : ScriptableObject
 
     [Header("If consumable, it restores:")]
     public RestoreType restoreType;
-    public int ammount = 0;
+    public int ammountToRestore = 0;
 
     [Header("If weapon, it does:")]
     //the attack radius of melee weapons or the bullet distance of ranged weapons
@@ -31,19 +31,19 @@ public class Item : ScriptableObject
         switch(restoreType)
         {
             case RestoreType.Health:
-                pm.currentPlayerHealth += ammount;
+                pm.currentPlayerHealth += ammountToRestore;
                 if (pm.currentPlayerHealth > pm.maxPlayerHealth) { pm.currentPlayerHealth = pm.maxPlayerHealth; }
                 break;
             case RestoreType.Oxygen:
-                pm.oxygen += ammount;
+                pm.oxygen += ammountToRestore;
                 if (pm.oxygen > 100) { pm.oxygen = 100; }
                 break;
             case RestoreType.Food:
-                pm.food += ammount;
+                pm.food += ammountToRestore;
                 if (pm.food > 100) { pm.food = 100; }
                 break;
             case RestoreType.Water:
-                pm.water += ammount;
+                pm.water += ammountToRestore;
                 if (pm.water > 100) { pm.water = 100; }
                 break;
         }
@@ -52,7 +52,7 @@ public class Item : ScriptableObject
         {
             pm.inventory.Remove(itemToConsume);
         }
-        pm.currentPlayerWeight -= itemToConsume.weight;
+        pm.CalculateWeight();
     }
 
     public void attack()

@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     public Item leftHand, rightHand;
     public InventoryUI IUI;
 
+    public int litterQuantity = 0;
+
     float lhTimer = 0f;
     float rhTimer = 0f;
 
@@ -50,7 +52,7 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (interactable != null)
+            if (interactable != null && inventoryMenu.activeInHierarchy == false)
             {
                 interactable.interact();
             }
@@ -67,13 +69,12 @@ public class PlayerManager : MonoBehaviour
         }
         if(Input.GetMouseButtonDown(0) && lhTimer <= 0)
         {
-            useHand(leftHand);
-            lhTimer = leftHand.coolDown;
+            lhTimer = UseHand(leftHand);
+            
         }
         if (Input.GetMouseButtonDown(1) && rhTimer <= 0)
         {
-            useHand(rightHand);
-            rhTimer = rightHand.coolDown;
+            rhTimer = UseHand(rightHand);
         }
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -86,7 +87,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (rhTimer > 0)
         {
-            lhTimer -= Time.deltaTime;
+            rhTimer -= Time.deltaTime;
         }
     }
 
@@ -117,7 +118,7 @@ public class PlayerManager : MonoBehaviour
         else { Time.timeScale = 1f; }
     }
 
-    void useHand(Item hand)
+    float UseHand(Item hand)
     {
         if (hand != null)
         {
@@ -142,6 +143,20 @@ public class PlayerManager : MonoBehaviour
                     break;
                 
             }
+
+            return hand.coolDown;
+        }
+
+        return 0;
+    }
+    public void CalculateWeight()
+    {
+        Debug.Log("Calculated weight");
+        currentPlayerWeight = 0f;
+
+        foreach (Item item in inventory)
+        {
+            currentPlayerWeight += item.weight * item.quantity;
         }
     }
 }
