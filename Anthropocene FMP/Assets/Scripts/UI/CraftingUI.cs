@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CraftingUI : MonoBehaviour
 {
     public Text recipeListUI, recipeTitleUI, recipeDetailUI;
-    public CraftingRecipe[] recipes;
+    public List<CraftingRecipe> recipes;
 
     int positionInList;
 
@@ -32,16 +32,16 @@ public class CraftingUI : MonoBehaviour
             var eDown = Input.GetKeyDown(KeyCode.E);
 
             //adjusting UI accordingly
-            if (up && recipes.Length > 1)
+            if (up && recipes.Count > 1)
             {
                 positionInList -= 1;
-                if (positionInList < 0) { positionInList = recipes.Length - 1; }
+                if (positionInList < 0) { positionInList = recipes.Count - 1; }
                 UpdateUI();
             }
-            if (down && recipes.Length > 1)
+            if (down && recipes.Count > 1)
             {
                 positionInList += 1;
-                if (positionInList > recipes.Length - 1) { positionInList = 0; }
+                if (positionInList > recipes.Count - 1) { positionInList = 0; }
                 UpdateUI();
             }
             if (eDown)
@@ -73,7 +73,7 @@ public class CraftingUI : MonoBehaviour
     {
         recipeListUI.text = "";
 
-        for (int i = 0; i < recipes.Length; i++)
+        for (int i = 0; i < recipes.Count; i++)
         {
             if (positionInList == i) //display selected items info
             {

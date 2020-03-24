@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,14 +14,27 @@ public class PlayerManager : MonoBehaviour
     public List<Item> inventory = new List<Item>(); //inventorys
     public Item leftHand, rightHand;
     public InventoryUI IUI;
+    public TextMeshProUGUI logText;
+    
+    private List<string>_log = new List<string>();
+    public List<string> Log
+    {
+        get
+        {
+            return _log;
+        }
+        set
+        {
+            _log = value;
+            UpdateLog();
+        }
+    }
 
     public int litterQuantity = 0;
-
+    public bool uISelection = true;
     float lhTimer = 0f;
     float rhTimer = 0f;
-
-    public bool uISelection = true;
-
+    int maxLogLength = 5;
     Interactable interactable;
     GameUI GUI;
     private void Start()
@@ -138,8 +153,11 @@ public class PlayerManager : MonoBehaviour
                     break;
                 case ItemType.ranged:
                 case ItemType.melee:
-                    hand.attack();
+                    hand.Attack();
                     Debug.Log("You Attacked!");
+                    break;
+                case ItemType.utility:
+                    hand.Place(hand);
                     break;
                 
             }
@@ -158,5 +176,29 @@ public class PlayerManager : MonoBehaviour
         {
             currentPlayerWeight += item.weight * item.quantity;
         }
+    }
+
+    void UpdateLog()
+    {
+        if (Log.Count > maxLogLength)
+        {
+            Log.Remove(Log[0]);
+        }
+
+        StringBuilder textToOutput = new StringBuilder();
+        foreach (string logEntry in Log)
+        {
+            textToOutput.Append(logEntry + "\n");
+            Debug.Log("Added line");
+        }
+
+        logText.text = textToOutput.ToString();
+        Debug.Log("outputted log");
+    }
+
+    public void AddLog(string textToAdd)
+    {
+        Log.Add(textToAdd);
+        Log = Log;
     }
 }

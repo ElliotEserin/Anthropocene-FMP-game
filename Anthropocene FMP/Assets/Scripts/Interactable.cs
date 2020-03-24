@@ -7,18 +7,18 @@ public class Interactable : MonoBehaviour
     public GameObject dialogue; //replace with dialogue class
     public Item itemNeeded;
 
-    PlayerManager pm;
+    PlayerManager playerManager;
     bool canTrigger = false;
 
     private void Start()
     {
-        pm = FindObjectOfType<PlayerManager>();
+        playerManager = FindObjectOfType<PlayerManager>();
     }
     public void interact()
     {
         if (itemNeeded != null)
         {
-            foreach (Item item in pm.inventory)
+            foreach (Item item in playerManager.inventory)
             {
                 if (item == itemNeeded)
                 {
@@ -34,7 +34,7 @@ public class Interactable : MonoBehaviour
                 if(item != null && canTrigger)
                 {
                     bool isInInventory = false;
-                    foreach(Item itemInInventory in pm.inventory)
+                    foreach(Item itemInInventory in playerManager.inventory)
                     {
                         if(itemInInventory == item)
                         {
@@ -44,14 +44,15 @@ public class Interactable : MonoBehaviour
                     }
                     if (!isInInventory)
                     {
-                        pm.inventory.Add(item);
+                        playerManager.inventory.Add(item);
                         if (item.quantity <= 0)
                         {
                             item.quantity = 1;
                         }
                     }
 
-                    pm.CalculateWeight();
+                    playerManager.CalculateWeight();
+                    playerManager.AddLog("Picked up: " + item.itemName);
                     Destroy(gameObject);
                 }
                 break;

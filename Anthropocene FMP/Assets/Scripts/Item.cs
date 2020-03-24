@@ -25,6 +25,13 @@ public class Item : ScriptableObject
     public int numberOfBullets = 1;
     public GameObject damageCollider;
 
+    [Header("If utility, it does:")]
+    public bool isPlacable = false;
+    public GameObject objectToPlace;
+    public float minPlaceDistance = 0.5f;
+    public float maxPlaceDistance = 5f;
+
+
     public void Consume(Item itemToConsume)
     {
         PlayerManager pm = FindObjectOfType<PlayerManager>();
@@ -53,9 +60,10 @@ public class Item : ScriptableObject
             pm.inventory.Remove(itemToConsume);
         }
         pm.CalculateWeight();
+        pm.AddLog("Consumed: " + itemName);
     }
 
-    public void attack()
+    public void Attack()
     {
         if(itemType == ItemType.melee)
         {
@@ -136,6 +144,30 @@ public class Item : ScriptableObject
 
             for(int i = 0; i < numberOfBullets; i++)
                 Instantiate(damageCollider, playerPos, Quaternion.identity);
+        }
+    }
+
+    public void Place(Item itemToPlace)
+    {
+        if (isPlacable)
+        {
+            var player = GameObject.Find("Player");
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerPos = player.transform.position;
+            var distance = Vector2.Distance(mousePos, playerPos);
+            if (distance > minPlaceDistance && distance < maxPlaceDistance)
+            {
+                Instantiate(objectToPlace, mousePos, Quaternion.identity);
+
+                itemToPlace.quantity -= 1;
+                if (itemToPlace.quantity == 0)
+                {
+                    player.GetComponent<PlayerManager>().inventory.Remove(itemToPlace);
+                }
+                var pm = player.GetComponent<PlayerManager>();
+                pm.CalculateWeight();
+                pm.AddLog("Placed: " + itemToPlace.itemName);
+            }
         }
     }
 }

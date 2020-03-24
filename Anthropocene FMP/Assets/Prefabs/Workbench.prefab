@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8497424902682175863}
   - component: {fileID: 8497424902682175862}
   - component: {fileID: 8497424902682175857}
+  - component: {fileID: -3395068925026143136}
   m_Layer: 0
   m_Name: Workbench
   m_TagString: Untagged
@@ -67,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1223680647
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 43dbe28a50f4a9248a9bf236a17f97c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -107,3 +108,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1306074, y: 0.37157345}
   m_EdgeRadius: 0
+--- !u!58 &-3395068925026143136
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8497424902682175856}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.016886234, y: 0.1871553}
+  serializedVersion: 2
+  m_Radius: 0.78125
