@@ -6,10 +6,13 @@ public class Workbench : MonoBehaviour
 {
     public List<CraftingRecipe> workbenchRecipes;
     public CraftingUI craftingUI;
+    public PlayerManager playerManager;
 
     private void Start()
     {
+        playerManager = FindObjectOfType<PlayerManager>();
         GetComponent<Renderer>().sortingOrder = (int)(gameObject.transform.position.y * -100);
+        craftingUI = playerManager.craftingUI;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

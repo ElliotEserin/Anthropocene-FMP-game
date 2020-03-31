@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     public Item leftHand, rightHand;
     public InventoryUI IUI;
     public TextMeshProUGUI logText;
+
+    public CraftingUI craftingUI;
     
     private List<string>_log = new List<string>();
     public List<string> Log

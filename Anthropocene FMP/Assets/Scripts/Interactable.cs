@@ -9,6 +9,7 @@ public class Interactable : MonoBehaviour
 
     PlayerManager playerManager;
     bool canTrigger = false;
+    public bool isConsumed = true;
 
     private void Start()
     {
@@ -53,7 +54,14 @@ public class Interactable : MonoBehaviour
 
                     playerManager.CalculateWeight();
                     playerManager.AddLog("Picked up: " + item.itemName);
-                    Destroy(gameObject);
+                    if (isConsumed)
+                    {
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        gameObject.SetActive(false);
+                    }
                 }
                 break;
             case InteractType.Dialogue:

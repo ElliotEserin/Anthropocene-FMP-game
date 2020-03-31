@@ -51,7 +51,7 @@ public class CraftingUI : MonoBehaviour
                 foreach(Item requiredItem in recipeSelected.requiredItems)
                 {
                     Item item = playerManager.inventory.Find(x => x.name == requiredItem.itemName);
-                    if(item == null || item.quantity <= 0)
+                    if(item == null || item.quantity < recipeSelected.quantityOfRequredItem)
                     {
                         isCraftable = false;
                     }
@@ -86,7 +86,7 @@ public class CraftingUI : MonoBehaviour
 
                 foreach(Item item in recipeSelected.requiredItems)
                 {
-                    detailOutput.Append(item.itemName + "\n");
+                    detailOutput.Append(item.itemName + " " + "(x" + recipeSelected.quantityOfRequredItem + ")" + "\n");
                 }
 
                 detailOutput.Append("\nPRESS 'E' TO CRAFT...");
@@ -107,6 +107,7 @@ public class CraftingUI : MonoBehaviour
 public struct CraftingRecipe
 {
     public Item[] requiredItems;
+    public int quantityOfRequredItem;
     public Item craftedItem;
 
     public void Craft(PlayerManager pm)
@@ -117,9 +118,9 @@ public struct CraftingRecipe
         {
             foreach(Item requiredItem in requiredItems)
             {
-                if(requiredItem == inventoryItem)
+                if(requiredItem == inventoryItem && quantityOfRequredItem <= inventoryItem.quantity)
                 {
-                    inventoryItem.quantity -= 1;
+                    inventoryItem.quantity -= quantityOfRequredItem;
                     if(inventoryItem.quantity <= 0)
                     {
                         itemsToRemove.Add(inventoryItem);
@@ -131,7 +132,7 @@ public struct CraftingRecipe
         {
             pm.inventory.Remove(itemsToRemove[i]);
         }
-
+        
         if (craftedItem.quantity <= 0)
         {
             pm.inventory.Add(craftedItem);
@@ -141,6 +142,6 @@ public struct CraftingRecipe
         {
             craftedItem.quantity += 1;
         }
-        pm.currentPlayerWeight += craftedItem.weight;
+        pm.CalculateWeight();
     }
 }

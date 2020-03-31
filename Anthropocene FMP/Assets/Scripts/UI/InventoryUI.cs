@@ -119,6 +119,10 @@ public class InventoryUI : MonoBehaviour
                     case ItemType.ranged:
                         detailOutput.Append("COOLDOWN: " + itemSelected.coolDown + " SECOND(S)..." + "\n\n");
                         break;
+                    case ItemType.utility:
+                        if(itemSelected.isPlacable)
+                            detailOutput.Append("THIS ITEM CAN BE PLACED..." + "\n\n");
+                        break;
                 }
                 detailOutput.Append("PRESS 'A' OR 'D' TO EQUIP TO LEFT OR RIGHT MOUSE BUTTON..." + "\n\n");
                 detailOutput.Append("PRESS 'R' TO DROP THE CURRENT ITEM...");

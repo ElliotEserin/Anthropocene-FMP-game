@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6c6ba76773660d41881a70c73d4fe3e, type: 3}
-  m_Name: Scrap Metal
+  m_Name: TreeSeed
   m_EditorClassIdentifier: 
-  itemName: Scrap Metal
-  description: a collection of rusted metals
-  weight: 1
+  itemName: Tree seed
+  description: A seed for a tree.
+  weight: 0
   quantity: 0
-  itemType: 2
+  itemType: 4
   coolDown: 1
   restoreType: 0
   ammountToRestore: 0
@@ -24,7 +24,8 @@ MonoBehaviour:
   damage: 0
   numberOfBullets: 1
   damageCollider: {fileID: 0}
-  isPlacable: 0
-  objectToPlace: {fileID: 0}
+  isPlacable: 1
+  objectToPlace: {fileID: 6782447436184154520, guid: b1ef76fe1e6616949be8a82182c0e3d4,
+    type: 3}
   minPlaceDistance: 0.5
   maxPlaceDistance: 5

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6c6ba76773660d41881a70c73d4fe3e, type: 3}
-  m_Name: Scrap Metal
+  m_Name: Plastic
   m_EditorClassIdentifier: 
-  itemName: Scrap Metal
-  description: a collection of rusted metals
+  itemName: Plastic
+  description: A versitile non-metal used for many items.
   weight: 1
   quantity: 0
   itemType: 2
