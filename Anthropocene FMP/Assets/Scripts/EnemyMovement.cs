@@ -72,7 +72,6 @@ public class EnemyMovement : DynamicMovement
 
     void Idle()
     {
-        Debug.Log("Idle!");
         timer += 1 * Time.deltaTime;
         if (timer >= timeBetweenDirectionChange)
         {

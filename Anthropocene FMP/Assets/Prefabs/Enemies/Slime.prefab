@@ -146,7 +146,7 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   health: 20
   detectionRadius: 3
-  attackRadius: 1.1
+  attackRadius: 1.25
   moveSpeed: 1
   offset: 5
   timeBetweenDirectionChange: 5

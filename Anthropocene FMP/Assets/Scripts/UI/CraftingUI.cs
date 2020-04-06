@@ -50,10 +50,12 @@ public class CraftingUI : MonoBehaviour
 
                 foreach(Item requiredItem in recipeSelected.requiredItems)
                 {
-                    Item item = playerManager.inventory.Find(x => x.name == requiredItem.itemName);
+                    Item item = playerManager.inventory.Find(x => x.itemName == requiredItem.itemName);
+                    Debug.Log(item.itemName);
                     if(item == null || item.quantity < recipeSelected.quantityOfRequredItem)
                     {
                         isCraftable = false;
+                        Debug.Log("missing items or incorrect quantity.");
                     }
                 }
                 if (isCraftable)
@@ -98,8 +100,6 @@ public class CraftingUI : MonoBehaviour
 
             recipeListUI.text += name.ToString();
         }
-
-        Debug.Log("Updated crafting system...");
     }
 }
 
@@ -118,7 +118,7 @@ public struct CraftingRecipe
         {
             foreach(Item requiredItem in requiredItems)
             {
-                if(requiredItem == inventoryItem && quantityOfRequredItem <= inventoryItem.quantity)
+                if(requiredItem == inventoryItem)
                 {
                     inventoryItem.quantity -= quantityOfRequredItem;
                     if(inventoryItem.quantity <= 0)

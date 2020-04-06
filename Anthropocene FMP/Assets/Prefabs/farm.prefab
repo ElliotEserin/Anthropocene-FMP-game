@@ -127,7 +127,7 @@ MonoBehaviour:
   - {fileID: 7756276956326108640}
   - {fileID: 7756276956678360745}
   - {fileID: 7756276957138704061}
-  growTime: 0
+  growTime: 4
 --- !u!1001 &2582905824407079412
 PrefabInstance:
   m_ObjectHideFlags: 0

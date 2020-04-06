@@ -25,6 +25,12 @@ public class ShieldGenerator : MonoBehaviour
                 pm.oxygen += pm.rateOfOxygenDecrease * 2 * Time.deltaTime;
             else
                 pm.oxygen = 100;
+
+            pm.isCovered = true;
+        }
+        else if (pm.isCovered == true)
+        {
+            pm.isCovered = false;
         }
     }
 

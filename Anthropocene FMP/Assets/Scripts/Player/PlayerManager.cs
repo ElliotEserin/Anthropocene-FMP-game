@@ -17,6 +17,8 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI logText;
 
     public CraftingUI craftingUI;
+
+    public bool isCovered = false;
     
     private List<string>_log = new List<string>();
     public List<string> Log
@@ -171,7 +173,6 @@ public class PlayerManager : MonoBehaviour
     }
     public void CalculateWeight()
     {
-        Debug.Log("Calculated weight");
         currentPlayerWeight = 0f;
 
         foreach (Item item in inventory)
@@ -191,11 +192,9 @@ public class PlayerManager : MonoBehaviour
         foreach (string logEntry in Log)
         {
             textToOutput.Append(logEntry + "\n");
-            Debug.Log("Added line");
         }
 
         logText.text = textToOutput.ToString();
-        Debug.Log("outputted log");
     }
 
     public void AddLog(string textToAdd)

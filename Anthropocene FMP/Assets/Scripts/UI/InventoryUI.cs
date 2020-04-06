@@ -149,6 +149,7 @@ public class InventoryUI : MonoBehaviour
             itemSelected = null;
             inventoryDetailUI.text = null;
         }
+        if (positionInList > inventory.Count - 1) { positionInList = 0; }
 
         Debug.Log("Updated Inventory...");
     }

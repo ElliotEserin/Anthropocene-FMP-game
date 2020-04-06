@@ -17,9 +17,15 @@ MonoBehaviour:
   weight: 3
   quantity: 0
   itemType: 0
+  coolDown: 1
   restoreType: 0
-  ammount: 0
+  ammountToRestore: 0
   attackRadius: 1
-  damage: 4
+  damage: 2
+  numberOfBullets: 1
   damageCollider: {fileID: 4426215347910522852, guid: 0343a6eab5cb56841968d789b70881ea,
     type: 3}
+  isPlacable: 0
+  objectToPlace: {fileID: 0}
+  minPlaceDistance: 0.5
+  maxPlaceDistance: 5
