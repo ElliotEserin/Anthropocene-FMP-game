@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 835555320152557988}
   - component: {fileID: 835555320152557989}
   - component: {fileID: 915046555}
+  - component: {fileID: -5005538572510602134}
   m_Layer: 0
   m_Name: Fly
   m_TagString: Enemy
@@ -172,3 +173,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-5005538572510602134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835555320152557990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b41f46569539d54db5f211481551ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactType: 0
+  item: {fileID: 11400000, guid: fb91d6a55db7bc24a91ddd8d97228b14, type: 2}
+  dialogue: {fileID: 0}
+  itemNeeded: {fileID: 0}
+  isConsumed: 0
+  isDisabled: 0

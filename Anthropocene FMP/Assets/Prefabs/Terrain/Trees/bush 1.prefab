@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 263531349830382899}
   - component: {fileID: 3852267891915769272}
   - component: {fileID: 1126419900098470839}
+  - component: {fileID: -6771223881212491092}
   m_Layer: 0
   m_Name: bush 1
-  m_TagString: Untagged
+  m_TagString: Scanable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1223680647
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -4725923292034538642, guid: 4c453593a60068c4ea5643135cb666bc,
     type: 3}
@@ -98,3 +99,21 @@ CircleCollider2D:
   m_Offset: {x: 0.05, y: 0.3}
   serializedVersion: 2
   m_Radius: 0.36
+--- !u!114 &-6771223881212491092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641523993462694974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b41f46569539d54db5f211481551ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactType: 0
+  item: {fileID: 11400000, guid: d1fcc3cec6e0f1f40831096c304334a0, type: 2}
+  dialogue: {fileID: 0}
+  itemNeeded: {fileID: 0}
+  isConsumed: 0
+  isDisabled: 0

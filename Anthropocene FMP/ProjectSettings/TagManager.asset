@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Region
   - Enemy
+  - Trash
+  - Scanable
   layers:
   - Default
   - TransparentFX

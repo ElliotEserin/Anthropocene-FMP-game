@@ -4,12 +4,15 @@ public class Interactable : MonoBehaviour
 {
     public InteractType interactType;
     public Item item; 
-    public GameObject dialogue; //replace with dialogue class
+    public Dialogue dialogue; 
     public Item itemNeeded;
 
     PlayerManager playerManager;
     bool canTrigger = false;
     public bool isConsumed = true;
+    public bool isDisabled = true;
+
+    bool hasInteracted = false; //dialogue only
 
     private void Start()
     {
@@ -60,12 +63,20 @@ public class Interactable : MonoBehaviour
                     }
                     else
                     {
-                        gameObject.SetActive(false);
+                        if(isDisabled)
+                            gameObject.SetActive(false);
                     }
                 }
                 break;
             case InteractType.Dialogue:
-                //run dialogue
+                if (!dialogue.isActivated)
+                {
+                    TriggerDialogue();
+                    dialogue.isActivated = true;
+                    hasInteracted = true;
+                }
+                else
+                    FindObjectOfType<DialogueManager>().DisplayNextSentence();
                 break;
             case InteractType.Crafting:
                 //crafting
@@ -73,6 +84,19 @@ public class Interactable : MonoBehaviour
             case InteractType.Button:
                 //button
                 break;
+        }
+    }
+
+    void TriggerDialogue()
+    {
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+    }
+
+    private void OnBecameInvisible()
+    {
+        if(hasInteracted)
+        {
+            Destroy(this.gameObject);
         }
     }
 }

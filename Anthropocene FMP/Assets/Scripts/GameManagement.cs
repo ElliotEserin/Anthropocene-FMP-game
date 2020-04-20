@@ -1,9 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
+    public static GameManagement instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("Multiple instances!");
+            return;
+        }
+
+        instance = this;
+    }
+
     List<SpriteRenderer> foregroundObjects = new List<SpriteRenderer>();
     public float timeBetweenWeather = 5f; //minutes
     public Weather currentWeather;
@@ -17,8 +30,17 @@ public class GameManagement : MonoBehaviour
     public float windDamage = 1f;
     public float blizzardDamage = 1f;
 
+    public static bool hasDied;
+
+    [SerializeField]
+    GameObject[] objectsToHideOnDeath;
+    [SerializeField]
+    GameObject deathUI;
+
     void Start()
     {
+        hasDied = false;
+
         foreach(SpriteRenderer i in FindObjectsOfType<SpriteRenderer>())
         {
             if (i.sortingLayerName == "Foreground")
@@ -27,13 +49,6 @@ public class GameManagement : MonoBehaviour
                 i.sortingOrder = (int)(i.gameObject.transform.position.y*-100);
             }
         }
-        //string[] items = AssetDatabase.FindAssets("t:Item", new[] { "Assets/Items" });
-
-        //foreach(string i in items)
-        //{
-        //    Item item = (Item)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(i), typeof(Item));
-        //    item.quantity = 0;
-        //}
 
         playerManager = FindObjectOfType<PlayerManager>();
     }
@@ -102,6 +117,32 @@ public class GameManagement : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void Die()
+    {
+        if(!hasDied)
+        {
+            hasDied = true;
+            Time.timeScale = 0f;
+
+            foreach(GameObject objectToHide in objectsToHideOnDeath)
+            {
+                objectToHide.SetActive(false);
+            }
+
+            deathUI.SetActive(true);
+        }
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Menu()
+    {
+        Debug.Log("Go to menu");
     }
 }
 

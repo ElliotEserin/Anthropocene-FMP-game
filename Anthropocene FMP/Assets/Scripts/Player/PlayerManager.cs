@@ -8,7 +8,21 @@ public class PlayerManager : MonoBehaviour
     public float oxygen = 100f, rateOfOxygenDecrease = 0.4f; //oxygen
     public float food = 100f, rateOfFoodDecrease = 0.5f; //food
     public float water = 100f, rateOfWaterDecrease = 0.2f; //water
-    public float currentPlayerHealth = 100, maxPlayerHealth = 100, rateOfHealthDecrease = 2f; //health
+    [SerializeField]
+    private float _currentPlayerHealth;
+    public float currentPlayerHealth
+    {
+        get
+        {
+            return _currentPlayerHealth;
+        }
+        set
+        {
+            _currentPlayerHealth = value;
+            CheckHealth();
+        }
+    }
+    public float maxPlayerHealth = 100, rateOfHealthDecrease = 2f; //health
     public float currentPlayerWeight = 0, maxPlayerWeight = 100; //weight
     public GameObject pauseMenu, inventoryMenu; //menus
     public List<Item> inventory = new List<Item>(); //inventorys
@@ -41,8 +55,12 @@ public class PlayerManager : MonoBehaviour
     int maxLogLength = 5;
     Interactable interactable;
     GameUI GUI;
+    [SerializeField]
+    Item[] miscLogs;
+
     private void Start()
     {
+        _currentPlayerHealth = maxPlayerHealth;
         GUI = FindObjectOfType<GameUI>();
         GUI.infoText.text = null;
         GUI.commandText.text = null;
@@ -166,7 +184,32 @@ public class PlayerManager : MonoBehaviour
                 
             }
 
-            return hand.coolDown;
+            if (hand.itemName == "Analyzer")
+            { 
+                print("scanning");
+                RaycastHit2D hit2D = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main.transform.forward * 1000);
+                if(hit2D.collider != null)
+                {
+                    print("ANALYSING: " + hit2D.collider.name);
+
+                    if (hit2D.collider.tag == "Scanable" || hit2D.collider.tag == "Enemy")
+                    {
+                        Interactable interactable = hit2D.collider.gameObject.GetComponent<Interactable>();
+                        interactable.interact();
+                    }
+                    else
+                    {
+                        int num = Random.Range(0, miscLogs.Length);
+                        interact(miscLogs[num]);
+                    }
+                }
+                else
+                {
+                    int num = Random.Range(0, miscLogs.Length);
+                    interact(miscLogs[num]);
+                }
+                return hand.coolDown;
+            }
         }
 
         return 0;
@@ -202,4 +245,41 @@ public class PlayerManager : MonoBehaviour
         Log.Add(textToAdd);
         Log = Log;
     }
-}
+
+    public void interact(Item item)
+    {
+        if (item != null)
+        {
+            bool isInInventory = false;
+            foreach (Item itemInInventory in inventory)
+            {
+                if (itemInInventory == item)
+                {
+                    item.quantity += 1;
+                    isInInventory = true;
+                }
+            }
+            if (!isInInventory)
+            {
+                inventory.Add(item);
+                if (item.quantity <= 0)
+                {
+                    item.quantity = 1;
+                }
+            }
+
+            CalculateWeight();
+            AddLog("Picked up: " + item.itemName);
+        }   
+    }
+
+    public void CheckHealth()
+    {
+        if(_currentPlayerHealth <= 0)
+        {
+            GameManagement.instance.Die();
+        }
+    }
+}        
+        
+   
