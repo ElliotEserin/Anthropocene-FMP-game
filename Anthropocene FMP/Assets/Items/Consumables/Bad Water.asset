@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bad Water
   m_EditorClassIdentifier: 
   itemName: Water (toxic)
+  clipToPlay: {fileID: 8300000, guid: ce4f70c9f857b514c88c67d80e69cef4, type: 3}
   description: A bottle of contaminated water.
   weight: 1
   quantity: 0

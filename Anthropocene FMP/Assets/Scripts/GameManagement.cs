@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
+    #region static inst
     public static GameManagement instance;
-
     private void Awake()
     {
         if (instance != null)
@@ -16,6 +16,7 @@ public class GameManagement : MonoBehaviour
 
         instance = this;
     }
+    #endregion
 
     List<SpriteRenderer> foregroundObjects = new List<SpriteRenderer>();
     public float timeBetweenWeather = 5f; //minutes
@@ -37,6 +38,9 @@ public class GameManagement : MonoBehaviour
     [SerializeField]
     GameObject deathUI;
 
+    public AudioClip[] soundtrack;
+    private AudioSource audio;
+
     void Start()
     {
         hasDied = false;
@@ -51,6 +55,14 @@ public class GameManagement : MonoBehaviour
         }
 
         playerManager = FindObjectOfType<PlayerManager>();
+
+        //music setup
+        audio = GetComponent<AudioSource>();
+        if (!audio.playOnAwake)
+        {
+            audio.clip = soundtrack[Random.Range(0, soundtrack.Length)];
+            audio.Play();
+        }
     }
 
     private void Update()
@@ -116,6 +128,12 @@ public class GameManagement : MonoBehaviour
                 case Weather.clear:
                     break;
             }
+        }
+
+        if (!audio.isPlaying)
+        {
+            audio.clip = soundtrack[Random.Range(0, soundtrack.Length)];
+            audio.Play();
         }
     }
 

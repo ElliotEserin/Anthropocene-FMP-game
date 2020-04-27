@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Good Water
   m_EditorClassIdentifier: 
   itemName: Water (clean)
+  clipToPlay: {fileID: 8300000, guid: ce4f70c9f857b514c88c67d80e69cef4, type: 3}
   description: A bottle of clean water.
   weight: 3
   quantity: 0

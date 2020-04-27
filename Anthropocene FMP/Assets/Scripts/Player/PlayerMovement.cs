@@ -6,11 +6,14 @@ public class PlayerMovement : DynamicMovement
     public Rigidbody2D rb;
     public Animator animator;
     public PlayerManager pm;
-
+    public AudioSource source;
+    public AudioClip runSound;
 
     Vector2 movement;
     bool isSprinting = false;
     float moveSpeed;
+
+    bool isRunning;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +28,23 @@ public class PlayerMovement : DynamicMovement
             moveSpeed += sprintSpeed;
         }
 
-        if (movement.sqrMagnitude > 0.01) { base.updateSortOrder(); } //changing sort order
+        if (movement.sqrMagnitude > 0.01) 
+        {
+            isRunning = true;
+            base.updateSortOrder(); 
+            if(!source.isPlaying && Time.deltaTime != 0)
+            {
+                source.PlayOneShot(runSound);
+            }
+        } //changing sort order
+        else
+        {
+            if(source.isPlaying && isRunning)
+            {
+                source.Stop();
+            }
+            isRunning = false;
+        }
 
         if (movement.x != 0 && movement.y != 0) { moveSpeed += walkSpeed / 1.75f; } //moving diagonally
         else { moveSpeed += walkSpeed; } //normal walk speed

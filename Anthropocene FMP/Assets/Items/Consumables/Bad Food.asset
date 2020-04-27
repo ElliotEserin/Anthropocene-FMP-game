@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bad Food
   m_EditorClassIdentifier: 
   itemName: Food (old)
+  clipToPlay: {fileID: 8300000, guid: 3e50ed64d20a4fa45b50ab6859d1e301, type: 3}
   description: Food that has gone off...
   weight: 1
   quantity: 0

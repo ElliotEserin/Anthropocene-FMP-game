@@ -6,6 +6,8 @@ public class Item : ScriptableObject
 {
     [Header("Generic variables:")]
     public string itemName = "new item";
+    public AudioClip clipToPlay;
+    private AudioSource source;
     [TextArea(3,5)]
     public string description = "an item...";
     public float weight;
@@ -54,6 +56,12 @@ public class Item : ScriptableObject
                 if (pm.water > 100) { pm.water = 100; }
                 break;
         }
+        if(clipToPlay != null)
+        {
+            source = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
+            source.PlayOneShot(clipToPlay);
+        }
+
         itemToConsume.quantity -= 1;
         if(itemToConsume.quantity == 0)
         {
