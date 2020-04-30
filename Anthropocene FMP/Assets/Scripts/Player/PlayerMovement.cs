@@ -9,7 +9,7 @@ public class PlayerMovement : DynamicMovement
     public AudioSource source;
     public AudioClip runSound;
 
-    Vector2 movement;
+    public Vector2 movement;
     bool isSprinting = false;
     float moveSpeed;
 

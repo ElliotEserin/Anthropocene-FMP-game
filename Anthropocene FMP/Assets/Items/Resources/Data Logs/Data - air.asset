@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Data - air
   m_EditorClassIdentifier: 
   itemName: 'Data log #3 - Air'
-  description: The air is heavily polluted from fuel emissions making it unbeathable
-    and excercising the need for oxygen tanks.
+  clipToPlay: {fileID: 0}
+  description: "The air is heavily polluted from fuel emissions -\n making it unbeathable
+    and excercising the need for oxygen tanks."
   weight: 0
-  quantity: 0
+  quantity: 1
   itemType: 2
   coolDown: 1
   restoreType: 0
