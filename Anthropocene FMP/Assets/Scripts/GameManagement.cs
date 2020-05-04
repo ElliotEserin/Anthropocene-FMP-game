@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -63,6 +64,17 @@ public class GameManagement : MonoBehaviour
             audio.clip = soundtrack[Random.Range(0, soundtrack.Length)];
             audio.Play();
         }
+
+        if(PlayerPrefs.GetInt("STATUS", 0) == 0)
+        {
+            StartCoroutine(SetStatus(1));
+        }
+    }
+
+    IEnumerator SetStatus(int value)
+    {
+        yield return new WaitForSeconds(10);
+        PlayerPrefs.SetInt("STATUS", value);
     }
 
     private void Update()
@@ -155,12 +167,14 @@ public class GameManagement : MonoBehaviour
 
     public void Retry()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Menu()
     {
-        Debug.Log("Go to menu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }
 
