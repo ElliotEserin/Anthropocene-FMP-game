@@ -908,7 +908,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -126.26999, y: 38.699997}
+  m_AnchoredPosition: {x: -126.26999, y: 38.69995}
   m_SizeDelta: {x: 226.53998, y: 50.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &582299266
@@ -1207,7 +1207,7 @@ PrefabInstance:
     - target: {fileID: 5401122296900949515, guid: bfc4e5f46993db14796ba5d14253aab0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.023178
+      value: -6.89
       objectReference: {fileID: 0}
     - target: {fileID: 5401122296900949515, guid: bfc4e5f46993db14796ba5d14253aab0,
         type: 3}
@@ -1282,7 +1282,7 @@ PrefabInstance:
     - target: {fileID: 8297024532160452370, guid: 73e05acda576f9241ad24d11d1983e4b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.035716
+      value: -10.9
       objectReference: {fileID: 0}
     - target: {fileID: 8297024532160452370, guid: 73e05acda576f9241ad24d11d1983e4b,
         type: 3}
@@ -1913,7 +1913,7 @@ PrefabInstance:
     - target: {fileID: 411326781162591386, guid: 92a389dbed6e0c643ab9a10fdc4610da,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.026794
+      value: -10.891078
       objectReference: {fileID: 0}
     - target: {fileID: 411326781162591386, guid: 92a389dbed6e0c643ab9a10fdc4610da,
         type: 3}
@@ -2059,13 +2059,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2041673218}
         m_MethodName: StartNewGame
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameWorld
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,

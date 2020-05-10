@@ -24,12 +24,13 @@ public class PlayerManager : MonoBehaviour
     }
     public float maxPlayerHealth = 100, rateOfHealthDecrease = 2f; //health
     public float currentPlayerWeight = 0, maxPlayerWeight = 100; //weight
+
     public GameObject pauseMenu, inventoryMenu; //menus
     public List<Item> inventory = new List<Item>(); //inventorys
     public Item leftHand, rightHand;
     public InventoryUI IUI;
     public TextMeshProUGUI logText;
-
+   
     public CraftingUI craftingUI;
 
     public bool isCovered = false;
@@ -52,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     public bool uISelection = true;
     float lhTimer = 0f;
     float rhTimer = 0f;
-    int maxLogLength = 5;
+    const int maxLogLength = 5;
     Interactable interactable;
     GameUI GUI;
     [SerializeField]
@@ -62,6 +63,7 @@ public class PlayerManager : MonoBehaviour
     {
         _currentPlayerHealth = maxPlayerHealth;
         GUI = FindObjectOfType<GameUI>();
+        IUI = FindObjectOfType<InventoryUI>();
         GUI.infoText.text = null;
         GUI.commandText.text = null;
     }
@@ -104,12 +106,12 @@ public class PlayerManager : MonoBehaviour
             inventoryMenu.SetActive(!inventoryMenu.activeInHierarchy);
             SetTimeScaleForMenus();
         }
-        if(Input.GetMouseButtonDown(0) && lhTimer <= 0)
+        if(Input.GetMouseButtonDown(0) && lhTimer <= 0 && Time.timeScale == 1)
         {
             lhTimer = UseHand(leftHand);
             
         }
-        if (Input.GetMouseButtonDown(1) && rhTimer <= 0)
+        if (Input.GetMouseButtonDown(1) && rhTimer <= 0 && Time.timeScale == 1)
         {
             rhTimer = UseHand(rightHand);
         }
@@ -171,7 +173,7 @@ public class PlayerManager : MonoBehaviour
             {
                 case ItemType.consumable:
                     hand.Consume(hand);
-                    if (IUI.positionInList > inventory.Count - 1) { IUI.positionInList = 0; }
+                    //if (IUI.positionInList > inventory.Count - 1) { IUI.positionInList = 0; }
                     break;
                 case ItemType.ranged:
                 case ItemType.melee:

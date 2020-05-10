@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameManagement : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class GameManagement : MonoBehaviour
     #endregion
 
     List<SpriteRenderer> foregroundObjects = new List<SpriteRenderer>();
+    public float timeBetweenDayNight = 5f; //minutes
     public float timeBetweenWeather = 5f; //minutes
     public Weather currentWeather;
     public ParticleSystem rain, storm, wind, blizzard;
@@ -34,13 +36,17 @@ public class GameManagement : MonoBehaviour
 
     public static bool hasDied;
 
+    public GameObject[] enemies;
+
     [SerializeField]
     GameObject[] objectsToHideOnDeath;
     [SerializeField]
     GameObject deathUI;
 
     public AudioClip[] soundtrack;
-    private AudioSource audio;
+    private AudioSource src;
+
+    public bool day = true;
 
     void Start()
     {
@@ -58,23 +64,31 @@ public class GameManagement : MonoBehaviour
         playerManager = FindObjectOfType<PlayerManager>();
 
         //music setup
-        audio = GetComponent<AudioSource>();
-        if (!audio.playOnAwake)
+        src = GetComponent<AudioSource>();
+        if (!src.playOnAwake)
         {
-            audio.clip = soundtrack[Random.Range(0, soundtrack.Length)];
-            audio.Play();
+            src.clip = soundtrack[Random.Range(0, soundtrack.Length)];
+            src.Play();
         }
 
         if(PlayerPrefs.GetInt("STATUS", 0) == 0)
         {
             StartCoroutine(SetStatus(1));
         }
+
+        if (File.Exists(Application.dataPath + "/save.txt"))
+            SaveAndLoadGame.instance.Load();
+
+        InvokeRepeating("TimeOfDay", timeBetweenDayNight * 60 / timerMultiplier, timeBetweenDayNight * 60 / timerMultiplier);
+        InvokeRepeating("SpawnEnemy", 60, 60);
     }
 
     IEnumerator SetStatus(int value)
     {
         yield return new WaitForSeconds(10);
         PlayerPrefs.SetInt("STATUS", value);
+
+        SaveAndLoadGame.instance.Save();
     }
 
     private void Update()
@@ -142,10 +156,10 @@ public class GameManagement : MonoBehaviour
             }
         }
 
-        if (!audio.isPlaying)
+        if (!src.isPlaying)
         {
-            audio.clip = soundtrack[Random.Range(0, soundtrack.Length)];
-            audio.Play();
+            src.clip = soundtrack[Random.Range(0, soundtrack.Length)];
+            src.Play();
         }
     }
 
@@ -162,6 +176,11 @@ public class GameManagement : MonoBehaviour
             }
 
             deathUI.SetActive(true);
+
+            File.Delete(Application.dataPath + "/save.txt");
+            File.Delete(Application.dataPath + "/save.meta");
+            File.Delete(Application.dataPath + "/savePM.txt");
+            File.Delete(Application.dataPath + "/savePM.meta");
         }
     }
 
@@ -175,6 +194,27 @@ public class GameManagement : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+    }
+
+    public void TimeOfDay()
+    {
+        day = !day;
+        if(day)
+            playerManager.AddLog("It has just become day");
+        else
+            playerManager.AddLog("It has just become night");
+    }
+
+    public void SpawnEnemy()
+    {
+        if(!day)
+        {
+            int enemyToSpawn = Random.Range(0, enemies.Length);
+            int randomX = Random.Range(-10, 11);
+            int randomY = Random.Range(-10, 11);
+            Instantiate(enemies[enemyToSpawn], playerManager.transform.position + new Vector3(randomX, randomY, 0), Quaternion.identity);
+            Debug.Log("enemy spawned");
+        }
     }
 }
 

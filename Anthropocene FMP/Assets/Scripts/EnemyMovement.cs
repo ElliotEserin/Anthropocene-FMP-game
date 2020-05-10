@@ -32,7 +32,11 @@ public class EnemyMovement : DynamicMovement
     private void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
-        player = GameObject.Find("Player").transform;
+        var playerGO = GameObject.Find("Player");
+        if(playerGO)
+        {
+            player = playerGO.transform;
+        }
     }
 
     private void OnBecameInvisible()
@@ -81,10 +85,11 @@ public class EnemyMovement : DynamicMovement
         }
         transform.position = Vector2.MoveTowards(transform.position, move, moveSpeed * Time.deltaTime);
 
-        if(Vector2.Distance(transform.position, player.position) <= detectionRadius)
-        {
-            state = States.Detected;
-        }
+        if(player != null)
+            if(Vector2.Distance(transform.position, player.position) <= detectionRadius)
+            {
+                state = States.Detected;
+            }
     }
     void Detected()
     {

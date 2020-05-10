@@ -51,7 +51,6 @@ public class CraftingUI : MonoBehaviour
                 foreach(Item requiredItem in recipeSelected.requiredItems)
                 {
                     Item item = playerManager.inventory.Find(x => x.itemName == requiredItem.itemName);
-                    Debug.Log(item.itemName);
                     if(item == null || item.quantity < recipeSelected.quantityOfRequredItem)
                     {
                         isCraftable = false;
