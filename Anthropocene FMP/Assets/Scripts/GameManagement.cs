@@ -48,6 +48,11 @@ public class GameManagement : MonoBehaviour
 
     public bool day = true;
 
+    private void OnApplicationQuit()
+    {
+        SaveAndLoadGame.instance.Save();
+    }
+
     void Start()
     {
         hasDied = false;
